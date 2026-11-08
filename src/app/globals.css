@@ -1,26 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+@theme {
+  --color-obsidian: #070709;
+  --color-obsidian-surface: #0f0f14;
+  --color-obsidian-card: #15151b;
+  --color-obsidian-border: rgba(255, 255, 255, 0.08);
+  --color-gold: #c5a059;
+  --color-gold-light: #e5c378;
+  --color-gold-dark: #947230;
+  --color-champagne: #f4e8cb;
+  --color-ivory: #faf7f2;
+  --color-ivory-warm: #f5f0e6;
+  --color-platinum: #e2e4e8;
+  --color-charcoal: #1c1c24;
+  --font-display: 'Cinzel', serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #070709;
+  --foreground: #faf7f2;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography Enhancements */
+.font-display {
+  font-family: 'Cinzel', serif;
+}
+
+.font-serif {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-sans {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Luxury Metallic and Gradient Utilities */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #f7ecd5 0%, #d4af37 40%, #c5a059 70%, #997838 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-silver-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #e2e4e8 50%, #9aa0a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.border-gold-subtle {
+  border-color: rgba(197, 160, 89, 0.22);
+}
+
+.border-gold-medium {
+  border-color: rgba(197, 160, 89, 0.45);
+}
+
+.bg-gold-subtle {
+  background-color: rgba(197, 160, 89, 0.08);
+}
+
+.bg-radial-luxury {
+  background: radial-gradient(circle at 50% 30%, rgba(197, 160, 89, 0.08) 0%, transparent 60%);
+}
+
+.bg-hero-vignette {
+  background: radial-gradient(ellipse at center, rgba(7, 7, 9, 0.2) 0%, rgba(7, 7, 9, 0.85) 85%, #070709 100%);
+}
+
+/* Custom Scrollbar for Luxury Aesthetics */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #070709;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a261c;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c5a059;
+}
+
+/* Lenis Smooth Scroll Rules */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }

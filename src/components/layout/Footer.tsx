@@ -1,0 +1,270 @@
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { Sparkles, ShieldCheck, ArrowRight, Check } from 'lucide-react';
+import { useShop } from '@/context/ShopContext';
+
+export default function Footer() {
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+  const { openVIPModal } = useShop();
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      setSubscribed(true);
+      setTimeout(() => {
+        setSubscribed(false);
+        setEmail('');
+      }, 4000);
+    }
+  };
+
+  return (
+    <footer className="bg-[#050507] border-t border-[#c5a059]/20 text-[#bfb8ab] font-sans">
+      {/* Top Gazette Inscription Banner */}
+      <div className="border-b border-white/10 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center space-y-4">
+          <div className="flex items-center justify-center gap-2 text-[#c5a059] text-[10px] tracking-[0.3em] uppercase">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>La Gazette Privée</span>
+          </div>
+
+          <h3 className="font-serif text-3xl sm:text-4xl text-[#faf7f2] font-light">
+            Receive Private Salon Invitations
+          </h3>
+
+          <p className="text-xs sm:text-sm text-[#8e8a7f] max-w-lg mx-auto font-light leading-relaxed">
+            Subscribers receive confidential early previews of our annual Haute Joaillerie collections and invitations to private Place Vendôme viewings.
+          </p>
+
+          <form onSubmit={handleSubscribe} className="max-w-md mx-auto mt-6 flex gap-2">
+            <input
+              type="email"
+              required
+              placeholder="Your confidential email address..."
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 bg-[#101016] border border-white/15 px-4 py-3 text-xs text-[#faf7f2] rounded-none focus:outline-none focus:border-[#c5a059] placeholder:text-[#6a665f]"
+            />
+            <button
+              type="submit"
+              className="bg-[#c5a059] text-[#070709] px-6 py-3 text-xs tracking-[0.2em] uppercase font-medium hover:bg-[#e5c378] transition-colors flex items-center justify-center gap-2"
+            >
+              {subscribed ? (
+                <>
+                  <Check className="w-4 h-4" />
+                  <span>Enrolled</span>
+                </>
+              ) : (
+                <>
+                  <span>Join</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </>
+              )}
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* Main Multi-Column Layout */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
+          {/* Col 1: Maison Logotype and Heritage */}
+          <div className="lg:col-span-1 space-y-4">
+            <Link href="/" className="inline-block">
+              <span className="font-display text-lg tracking-[0.25em] text-[#faf7f2] uppercase block">
+                Maison D’Orval
+              </span>
+              <span className="text-[8.5px] tracking-[0.34em] text-[#c5a059] uppercase block mt-0.5">
+                Place Vendôme • Paris 1894
+              </span>
+            </Link>
+
+            <p className="text-xs text-[#8a857b] font-light leading-relaxed">
+              Official French Haute Joaillerie purveyor. Dedicated to exceptional diamonds, rare untreated gemstones, and fairmined gold.
+            </p>
+
+            <div className="flex items-center gap-2 pt-2 text-[#c5a059] text-[10.5px]">
+              <ShieldCheck className="w-4 h-4" />
+              <span>RJC Code of Practices Certified</span>
+            </div>
+          </div>
+
+          {/* Col 2: Haute Joaillerie */}
+          <div>
+            <h4 className="text-xs font-serif tracking-[0.2em] text-[#faf7f2] uppercase mb-4">
+              Universes
+            </h4>
+            <ul className="space-y-2.5 text-xs text-[#8e8a7f] font-light">
+              <li>
+                <Link href="#featured" className="hover:text-[#f4e8cb] transition-colors">
+                  Solitaire High Rings
+                </Link>
+              </li>
+              <li>
+                <Link href="#categories" className="hover:text-[#f4e8cb] transition-colors">
+                  Haute Or 18K Necklaces
+                </Link>
+              </li>
+              <li>
+                <Link href="#bridal" className="hover:text-[#f4e8cb] transition-colors">
+                  Bridal Suites & Tiaras
+                </Link>
+              </li>
+              <li>
+                <Link href="#categories" className="hover:text-[#f4e8cb] transition-colors">
+                  Rare Muzo Emeralds
+                </Link>
+              </li>
+              <li>
+                <Link href="#categories" className="hover:text-[#f4e8cb] transition-colors">
+                  Sculptural Platinum Cuffs
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 3: The Maison */}
+          <div>
+            <h4 className="text-xs font-serif tracking-[0.2em] text-[#faf7f2] uppercase mb-4">
+              The Maison
+            </h4>
+            <ul className="space-y-2.5 text-xs text-[#8e8a7f] font-light">
+              <li>
+                <Link href="#craftsmanship" className="hover:text-[#f4e8cb] transition-colors">
+                  Atelier Place Vendôme
+                </Link>
+              </li>
+              <li>
+                <Link href="#craftsmanship" className="hover:text-[#f4e8cb] transition-colors">
+                  130 Years of Savoir-Faire
+                </Link>
+              </li>
+              <li>
+                <Link href="#craftsmanship" className="hover:text-[#f4e8cb] transition-colors">
+                  Responsible Jewellery Council
+                </Link>
+              </li>
+              <li>
+                <Link href="#collections" className="hover:text-[#f4e8cb] transition-colors">
+                  Historical Archives (1894)
+                </Link>
+              </li>
+              <li>
+                <Link href="#craftsmanship" className="hover:text-[#f4e8cb] transition-colors">
+                  Kimberley Process Compliance
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 4: Client Services */}
+          <div>
+            <h4 className="text-xs font-serif tracking-[0.2em] text-[#faf7f2] uppercase mb-4">
+              Client Services
+            </h4>
+            <ul className="space-y-2.5 text-xs text-[#8e8a7f] font-light">
+              <li>
+                <button
+                  onClick={() => openVIPModal('Private Salon Appointment')}
+                  className="hover:text-[#f4e8cb] transition-colors text-left"
+                >
+                  Book Private Salon Viewing
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => openVIPModal('Custom Ring Resizing')}
+                  className="hover:text-[#f4e8cb] transition-colors text-left"
+                >
+                  Bespoke Ring Sizing Guide
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => openVIPModal('Insurance Valuation Report')}
+                  className="hover:text-[#f4e8cb] transition-colors text-left"
+                >
+                  GIA / Gübelin Certification
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => openVIPModal('Heirloom Restoration')}
+                  className="hover:text-[#f4e8cb] transition-colors text-left"
+                >
+                  Atelier Cleaning & Restoration
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => openVIPModal('White Glove Courier Inquiry')}
+                  className="hover:text-[#f4e8cb] transition-colors text-left"
+                >
+                  Armoured Courier Delivery
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 5: Global Salons */}
+          <div>
+            <h4 className="text-xs font-serif tracking-[0.2em] text-[#faf7f2] uppercase mb-4">
+              Global Salons
+            </h4>
+            <div className="space-y-3 text-xs text-[#8e8a7f] font-light">
+              <div>
+                <strong className="text-[#faf7f2] font-normal block font-serif">
+                  Paris — Place Vendôme
+                </strong>
+                <span>12 Place Vendôme, 75001 Paris</span>
+              </div>
+              <div>
+                <strong className="text-[#faf7f2] font-normal block font-serif">
+                  New York — Madison Avenue
+                </strong>
+                <span>742 Madison Ave, New York, NY 10065</span>
+              </div>
+              <div>
+                <strong className="text-[#faf7f2] font-normal block font-serif">
+                  London — New Bond Street
+                </strong>
+                <span>16 New Bond St, Mayfair, London</span>
+              </div>
+              <div>
+                <strong className="text-[#faf7f2] font-normal block font-serif">
+                  Tokyo — Ginza
+                </strong>
+                <span>6-10-1 Ginza, Chuo City, Tokyo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Legal, Hallmarks and Copyright */}
+        <div className="mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#706c64] space-y-4 sm:space-y-0">
+          <div>
+            © 1894–2026 Maison D’Orval Haute Joaillerie S.A. All rights reserved.
+          </div>
+
+          <div className="flex gap-6 tracking-wider uppercase text-[10px]">
+            <Link href="#" className="hover:text-[#c5a059] transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="#" className="hover:text-[#c5a059] transition-colors">
+              Legal Mentions
+            </Link>
+            <Link href="#" className="hover:text-[#c5a059] transition-colors">
+              Code of Ethics
+            </Link>
+            <Link href="#" className="hover:text-[#c5a059] transition-colors">
+              RJC Compliance
+            </Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
