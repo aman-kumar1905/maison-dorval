@@ -7,17 +7,18 @@ import { X, Calendar, MapPin, Sparkles, CheckCircle2 } from 'lucide-react';
 import LuxuryButton from '../common/LuxuryButton';
 
 const BOUTIQUES = [
-  'Place Vendôme Salon — Paris',
-  'Madison Avenue Maison — New York',
-  'New Bond Street Flagship — London',
-  'Ginza Exclusive Salon — Tokyo',
-  'The Dubai Mall Fashion Avenue — Dubai',
+  'Place Vendôme Salon — Paris (Demo Concept)',
+  'Madison Avenue Maison — New York (Demo Concept)',
+  'Mayfair Viewing Suite — London (Demo Concept)',
+  'Ginza Exclusive Salon — Tokyo (Demo Concept)',
+  'Fashion Avenue Suite — Dubai (Demo Concept)',
 ];
 
 export default function VIPAppointmentModal() {
-  const { isVIPModalOpen, closeVIPModal, vipSubject } = useShop();
+  const { isVIPModalOpen, closeVIPModal, vipSubject, saveAppointment } = useShop();
 
   const [submitted, setSubmitted] = useState(false);
+  const [confirmedRef, setConfirmedRef] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -32,11 +33,24 @@ export default function VIPAppointmentModal() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const ref = saveAppointment({
+      subject: vipSubject,
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      boutique: formData.boutique,
+      date: formData.date,
+      time: formData.time,
+      notes: formData.notes,
+    });
+    setConfirmedRef(ref);
     setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      closeVIPModal();
-    }, 3500);
+  };
+
+  const handleClose = () => {
+    setSubmitted(false);
+    setConfirmedRef(null);
+    closeVIPModal();
   };
 
   return (
@@ -46,7 +60,7 @@ export default function VIPAppointmentModal() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={closeVIPModal}
+          onClick={handleClose}
           className="fixed inset-0 bg-black/85 backdrop-blur-md"
         />
 
@@ -57,24 +71,65 @@ export default function VIPAppointmentModal() {
           className="relative bg-[#09090d] border border-[#c5a059]/30 shadow-[0_30px_90px_rgba(0,0,0,0.95)] max-w-xl w-full z-10 p-8 sm:p-10 my-auto"
         >
           <button
-            onClick={closeVIPModal}
-            className="absolute top-5 right-5 text-[#8e8a7f] hover:text-[#faf7f2] p-1.5 transition-colors"
+            onClick={handleClose}
+            className="absolute top-4 right-4 text-[#8e8a7f] hover:text-[#faf7f2] p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors"
             aria-label="Close"
           >
             <X className="w-5 h-5" />
           </button>
 
           {submitted ? (
-            <div className="text-center py-12 space-y-4">
+            <div className="text-center py-8 space-y-4">
               <div className="w-16 h-16 rounded-full border border-[#c5a059] mx-auto flex items-center justify-center text-[#c5a059] bg-[#c5a059]/10">
                 <CheckCircle2 className="w-9 h-9" />
               </div>
-              <h3 className="font-serif text-3xl text-[#faf7f2]">
-                Salon Viewing Reserved
-              </h3>
-              <p className="text-xs text-[#a39f93] max-w-sm mx-auto font-sans leading-relaxed">
-                Thank you, {formData.name || 'esteemed guest'}. Our Chief Concierge will contact you within 24 hours to finalize your confidential salon itinerary.
-              </p>
+              <div>
+                <span className="text-[10px] tracking-[0.26em] uppercase font-sans text-[#c5a059] block mb-1">
+                  Private Reservation Registered
+                </span>
+                <h3 className="font-serif text-2xl sm:text-3xl text-[#faf7f2]">
+                  Salon Viewing Reserved
+                </h3>
+              </div>
+
+              {/* Reference Number */}
+              <div className="inline-block px-5 py-2.5 bg-[#0e0e14] border border-[#c5a059]/40 space-y-0.5">
+                <span className="text-[9px] uppercase tracking-[0.24em] font-sans text-[#8e8a7f] block">
+                  Appointment Reference
+                </span>
+                <span className="font-mono text-sm text-[#f4e8cb] font-semibold tracking-wider">
+                  {confirmedRef}
+                </span>
+              </div>
+
+              {/* Summary Details */}
+              <div className="p-4 bg-white/[0.02] border border-white/5 max-w-sm mx-auto text-left text-xs font-sans space-y-1.5 text-[#a39f93]">
+                <div className="flex justify-between">
+                  <span className="text-[#7a766c]">Patron:</span>
+                  <span className="text-[#faf7f2] font-medium">{formData.name}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#7a766c]">Salon:</span>
+                  <span className="text-[#faf7f2]">{formData.boutique}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#7a766c]">Date & Time:</span>
+                  <span className="text-[#faf7f2]">{formData.date} at {formData.time}</span>
+                </div>
+                <div className="pt-2 border-t border-white/5 text-[10.5px] text-[#c5a059]">
+                  Demo Appointment Record — Saved locally to this browser session.
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <LuxuryButton
+                  variant="solid"
+                  size="sm"
+                  onClick={handleClose}
+                >
+                  Close Confirmation
+                </LuxuryButton>
+              </div>
             </div>
           ) : (
             <>
@@ -105,7 +160,7 @@ export default function VIPAppointmentModal() {
                     <input
                       required
                       type="text"
-                      placeholder="e.g. Lady Vivienne Claire"
+                      placeholder="e.g. Alexandra Dumas (Demo)"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full bg-[#111116] border border-white/10 text-xs text-[#faf7f2] px-3 py-2.5 rounded-none focus:outline-none focus:border-[#c5a059] font-sans"
@@ -202,6 +257,7 @@ export default function VIPAppointmentModal() {
                 </div>
 
                 <LuxuryButton
+                  type="submit"
                   variant="solid"
                   size="md"
                   className="w-full mt-4"
@@ -220,3 +276,4 @@ export default function VIPAppointmentModal() {
     </AnimatePresence>
   );
 }
+

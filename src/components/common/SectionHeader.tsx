@@ -10,6 +10,7 @@ interface SectionHeaderProps {
   subtitle?: string;
   alignment?: 'center' | 'left';
   className?: string;
+  variant?: 'monochrome' | 'classic' | 'subtle';
 }
 
 export default function SectionHeader({
@@ -19,6 +20,7 @@ export default function SectionHeader({
   subtitle,
   alignment = 'center',
   className = '',
+  variant = 'monochrome',
 }: SectionHeaderProps) {
   const isCenter = alignment === 'center';
 
@@ -30,13 +32,13 @@ export default function SectionHeader({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex items-center gap-3 justify-center mb-3"
+          className={`flex items-center gap-3 ${isCenter ? 'justify-center' : 'justify-start'} mb-3`}
         >
           <span className="w-6 h-[1px] bg-[#c5a059]/40" />
-          <span className="text-[11px] font-sans tracking-[0.25em] text-[#c5a059] uppercase font-medium">
+          <span className="text-[10.5px] font-sans tracking-[0.25em] text-[#c5a059] uppercase font-medium">
             {eyebrow}
           </span>
-          <span className="w-6 h-[1px] bg-[#c5a059]/40" />
+          {isCenter && <span className="w-6 h-[1px] bg-[#c5a059]/40" />}
         </motion.div>
       )}
 
@@ -45,11 +47,19 @@ export default function SectionHeader({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7, delay: 0.1 }}
-        className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-serif font-light tracking-tight text-[#faf7f2] leading-[1.15]"
+        className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.15rem] font-serif font-light tracking-[0.015em] text-[#faf7f2] leading-[1.18]"
       >
-        {title}{' '}
+        <span>{title}</span>
         {italicWord && (
-          <span className="italic font-serif font-normal text-gold-gradient">
+          <span
+            className={
+              variant === 'classic'
+                ? 'font-serif italic font-light text-[#e5c378] ml-2'
+                : variant === 'subtle'
+                ? 'font-serif font-light text-[#f4e8cb] ml-2'
+                : 'font-serif font-light text-[#faf7f2] ml-2'
+            }
+          >
             {italicWord}
           </span>
         )}
@@ -61,7 +71,7 @@ export default function SectionHeader({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className={`mt-4 text-sm sm:text-base text-[#a3a3af] font-sans font-light leading-relaxed ${
+          className={`mt-4 text-sm sm:text-base text-[#bfb8ab] font-sans font-light leading-relaxed ${
             isCenter ? 'max-w-xl mx-auto' : 'max-w-xl'
           }`}
         >
@@ -71,3 +81,4 @@ export default function SectionHeader({
     </div>
   );
 }
+

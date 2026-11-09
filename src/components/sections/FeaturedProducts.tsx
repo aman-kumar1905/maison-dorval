@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PRODUCTS } from '@/data/jewelleryData';
 import SectionHeader from '../common/SectionHeader';
@@ -165,11 +166,10 @@ export default function FeaturedProducts() {
                         )}
                       </div>
 
-                      <h4
-                        onClick={() => openQuickView(product)}
-                        className="font-serif text-lg text-[#faf7f2] mt-1 line-clamp-1 hover:text-gold-gradient transition-colors cursor-pointer"
-                      >
-                        {product.name}
+                      <h4 className="font-serif text-lg text-[#faf7f2] mt-1 line-clamp-1 hover:text-[#c5a059] transition-colors">
+                        <Link href={`/product/${product.id}`}>
+                          {product.name}
+                        </Link>
                       </h4>
 
                       <p className="text-[11px] text-[#8e8a7f] font-sans line-clamp-1 mt-0.5">
@@ -206,7 +206,7 @@ export default function FeaturedProducts() {
             variant="ghost"
             href="#craftsmanship"
           >
-            Learn about Place Vendôme Diamond Certification
+            Learn about Place Vendôme Sourcing Standards
           </LuxuryButton>
         </div>
       </div>

@@ -83,12 +83,12 @@ export default function Footer() {
             </Link>
 
             <p className="text-xs text-[#8a857b] font-light leading-relaxed">
-              Official French Haute Joaillerie purveyor. Dedicated to exceptional diamonds, rare untreated gemstones, and fairmined gold.
+              Official French Haute Joaillerie purveyor. Dedicated to exceptional diamonds, rare untreated gemstones, and ethical precious metal stewardship.
             </p>
 
             <div className="flex items-center gap-2 pt-2 text-[#c5a059] text-[10.5px]">
               <ShieldCheck className="w-4 h-4" />
-              <span>RJC Code of Practices Certified</span>
+              <span>Traceable Provenance Protocol</span>
             </div>
           </div>
 
@@ -99,27 +99,27 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs text-[#8e8a7f] font-light">
               <li>
-                <Link href="#featured" className="hover:text-[#f4e8cb] transition-colors">
+                <Link href="/#featured" className="hover:text-[#f4e8cb] transition-colors">
                   Solitaire High Rings
                 </Link>
               </li>
               <li>
-                <Link href="#categories" className="hover:text-[#f4e8cb] transition-colors">
+                <Link href="/#categories" className="hover:text-[#f4e8cb] transition-colors">
                   Haute Or 18K Necklaces
                 </Link>
               </li>
               <li>
-                <Link href="#bridal" className="hover:text-[#f4e8cb] transition-colors">
+                <Link href="/#bridal" className="hover:text-[#f4e8cb] transition-colors">
                   Bridal Suites & Tiaras
                 </Link>
               </li>
               <li>
-                <Link href="#categories" className="hover:text-[#f4e8cb] transition-colors">
+                <Link href="/#categories" className="hover:text-[#f4e8cb] transition-colors">
                   Rare Muzo Emeralds
                 </Link>
               </li>
               <li>
-                <Link href="#categories" className="hover:text-[#f4e8cb] transition-colors">
+                <Link href="/#categories" className="hover:text-[#f4e8cb] transition-colors">
                   Sculptural Platinum Cuffs
                 </Link>
               </li>
@@ -133,28 +133,28 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs text-[#8e8a7f] font-light">
               <li>
-                <Link href="#craftsmanship" className="hover:text-[#f4e8cb] transition-colors">
+                <Link href="/#craftsmanship" className="hover:text-[#f4e8cb] transition-colors">
                   Atelier Place Vendôme
                 </Link>
               </li>
               <li>
-                <Link href="#craftsmanship" className="hover:text-[#f4e8cb] transition-colors">
+                <Link href="/#craftsmanship" className="hover:text-[#f4e8cb] transition-colors">
                   130 Years of Savoir-Faire
                 </Link>
               </li>
               <li>
-                <Link href="#craftsmanship" className="hover:text-[#f4e8cb] transition-colors">
-                  Responsible Jewellery Council
+                <Link href="/#craftsmanship" className="hover:text-[#f4e8cb] transition-colors">
+                  Ethical Sourcing Standards
                 </Link>
               </li>
               <li>
-                <Link href="#collections" className="hover:text-[#f4e8cb] transition-colors">
+                <Link href="/#collections" className="hover:text-[#f4e8cb] transition-colors">
                   Historical Archives (1894)
                 </Link>
               </li>
               <li>
-                <Link href="#craftsmanship" className="hover:text-[#f4e8cb] transition-colors">
-                  Kimberley Process Compliance
+                <Link href="/#craftsmanship" className="hover:text-[#f4e8cb] transition-colors">
+                  Conflict-Free Gemstone Protocol
                 </Link>
               </li>
             </ul>
@@ -187,7 +187,7 @@ export default function Footer() {
                   onClick={() => openVIPModal('Insurance Valuation Report')}
                   className="hover:text-[#f4e8cb] transition-colors text-left"
                 >
-                  GIA / Gübelin Certification
+                  Independent Lab Documentation
                 </button>
               </li>
               <li>
@@ -212,41 +212,44 @@ export default function Footer() {
           {/* Col 5: Global Salons */}
           <div>
             <h4 className="text-xs font-serif tracking-[0.2em] text-[#faf7f2] uppercase mb-4">
-              Global Salons
+              Private Salons
             </h4>
             <div className="space-y-3 text-xs text-[#8e8a7f] font-light">
               <div>
                 <strong className="text-[#faf7f2] font-normal block font-serif">
                   Paris — Place Vendôme
                 </strong>
-                <span>12 Place Vendôme, 75001 Paris</span>
+                <span>Historic Atelier • By Appointment</span>
               </div>
               <div>
                 <strong className="text-[#faf7f2] font-normal block font-serif">
                   New York — Madison Avenue
                 </strong>
-                <span>742 Madison Ave, New York, NY 10065</span>
+                <span>Private Viewing Suite • By Appointment</span>
               </div>
               <div>
                 <strong className="text-[#faf7f2] font-normal block font-serif">
-                  London — New Bond Street
+                  London — Mayfair
                 </strong>
-                <span>16 New Bond St, Mayfair, London</span>
+                <span>Private Viewing Suite • By Appointment</span>
               </div>
               <div>
                 <strong className="text-[#faf7f2] font-normal block font-serif">
                   Tokyo — Ginza
                 </strong>
-                <span>6-10-1 Ginza, Chuo City, Tokyo</span>
+                <span>Private Salon • By Appointment</span>
               </div>
             </div>
+            <p className="text-[10px] text-[#706c64] font-sans mt-3 italic">
+              Private client viewings welcome patrons by prior reservation. (Demo Concept Salons)
+            </p>
           </div>
         </div>
 
         {/* Bottom Legal, Hallmarks and Copyright */}
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#706c64] space-y-4 sm:space-y-0">
           <div>
-            © 1894–2026 Maison D’Orval Haute Joaillerie S.A. All rights reserved.
+            © 1894–2026 Maison D’Orval Haute Joaillerie S.A. All rights reserved. (Demonstration Concept Platform)
           </div>
 
           <div className="flex gap-6 tracking-wider uppercase text-[10px]">
@@ -260,7 +263,7 @@ export default function Footer() {
               Code of Ethics
             </Link>
             <Link href="#" className="hover:text-[#c5a059] transition-colors">
-              RJC Compliance
+              Traceability Protocol
             </Link>
           </div>
         </div>

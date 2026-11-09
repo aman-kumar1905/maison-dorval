@@ -3,14 +3,16 @@ import './globals.css';
 import { ShopProvider } from '@/context/ShopContext';
 import SmoothScroll from '@/components/common/SmoothScroll';
 import CartDrawer from '@/components/modals/CartDrawer';
+import WishlistDrawer from '@/components/modals/WishlistDrawer';
 import QuickViewModal from '@/components/modals/QuickViewModal';
 import VIPAppointmentModal from '@/components/modals/VIPAppointmentModal';
 import SearchModal from '@/components/modals/SearchModal';
+import CheckoutModal from '@/components/modals/CheckoutModal';
 
 export const metadata: Metadata = {
   title: "MAISON D'ORVAL | Haute Joaillerie Paris • Place Vendôme",
   description:
-    'French High Jewellery Maison established in 1894 on Place Vendôme. Sovereign 18-karat fairmined gold, Type IIa certified solitaire diamonds, and bespoke bridal suites.',
+    'French High Jewellery Maison established in 1894 on Place Vendôme. Sovereign 18-karat responsibly sourced gold, Type IIa certified solitaire diamonds, and bespoke bridal suites.',
   keywords: [
     'Haute Joaillerie',
     'Luxury Jewellery',
@@ -43,9 +45,11 @@ export default function RootLayout({
           <SmoothScroll>
             {children}
             <CartDrawer />
+            <WishlistDrawer />
             <QuickViewModal />
             <VIPAppointmentModal />
             <SearchModal />
+            <CheckoutModal />
           </SmoothScroll>
         </ShopProvider>
       </body>

@@ -36,7 +36,7 @@ export default function Hero() {
   return (
     <section
       ref={heroRef}
-      className="relative w-full h-[92vh] min-h-[640px] max-h-[1050px] flex items-center justify-center overflow-hidden bg-[#070709]"
+      className="relative w-full h-[92vh] min-h-[640px] max-h-[1050px] flex items-center justify-center overflow-hidden bg-[#070709] isolate"
     >
       {/* Background Cinematic Imagery with Ken-Burns scale */}
       <motion.div
@@ -104,7 +104,7 @@ export default function Hero() {
           transition={{ duration: 0.9, delay: 0.6 }}
           className="mt-6 sm:mt-8 text-sm sm:text-base md:text-lg text-[#d8d3c7] font-sans font-light max-w-2xl leading-relaxed tracking-wide"
         >
-          One hundred and thirty years of French savoir-faire. Sculpted in fairmined 18-karat gold and Type IIa diamonds, engineered to awaken with the movement of skin.
+          One hundred and thirty years of French savoir-faire. Sculpted in responsibly sourced 18-karat gold and Type IIa diamonds, engineered to awaken with the movement of skin.
         </motion.p>
 
         {/* Call to Actions */}

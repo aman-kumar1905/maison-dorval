@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useShop } from '@/context/ShopContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -15,19 +15,37 @@ import {
 } from 'lucide-react';
 import MegaMenu from './MegaMenu';
 
-const NAV_LINKS = [
-  { label: 'Haute Or', href: '#categories', hasMenu: true },
-  { label: 'Diamants', href: '#categories', hasMenu: true },
-  { label: 'Argent & Platine', href: '#categories' },
-  { label: 'Bridal Couture', href: '#bridal', hasMenu: true },
-  { label: 'Collections', href: '#collections' },
-  { label: 'Maison', href: '#craftsmanship' },
+interface NavLinkItem {
+  label: string;
+  href: string;
+  hasMenu?: boolean;
+}
+
+const LEFT_NAV_LINKS: NavLinkItem[] = [
+  { label: 'Haute Or', href: '/#categories', hasMenu: true },
+  { label: 'Diamants', href: '/#categories', hasMenu: true },
+  { label: 'Bridal Couture', href: '/#bridal', hasMenu: true },
+];
+
+const RIGHT_NAV_LINKS: NavLinkItem[] = [
+  { label: 'Collections', href: '/#collections' },
+  { label: 'L’Atelier', href: '/#craftsmanship' },
+];
+
+const MOBILE_NAV_LINKS = [
+  { label: 'Haute Or', href: '/#categories' },
+  { label: 'Diamants Éternels', href: '/#categories' },
+  { label: 'Argent & Platine', href: '/#categories' },
+  { label: 'Bridal Couture', href: '/#bridal' },
+  { label: 'Collections Signatures', href: '/#collections' },
+  { label: 'L’Atelier Place Vendôme', href: '/#craftsmanship' },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
 
   const {
     openCart,
@@ -35,6 +53,7 @@ export default function Navbar() {
     openSearch,
     openVIPModal,
     wishlist,
+    openWishlist,
   } = useShop();
 
   useEffect(() => {
@@ -45,37 +64,77 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // TASK 2: Auto-dismiss MegaMenu on scroll (>15px) or Escape key
+  useEffect(() => {
+    if (!activeMegaMenu) return;
+
+    const initialScrollY = window.scrollY;
+
+    const handleScrollDismiss = () => {
+      if (Math.abs(window.scrollY - initialScrollY) > 15) {
+        setActiveMegaMenu(null);
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setActiveMegaMenu(null);
+      }
+    };
+
+    const handlePointerDown = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.dataset.backdrop === 'megamenu' || (headerRef.current && !headerRef.current.contains(target))) {
+        setActiveMegaMenu(null);
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollDismiss, { passive: true });
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('mousedown', handlePointerDown);
+    window.addEventListener('touchstart', handlePointerDown);
+
+    return () => {
+      window.removeEventListener('scroll', handleScrollDismiss);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('mousedown', handlePointerDown);
+      window.removeEventListener('touchstart', handlePointerDown);
+    };
+  }, [activeMegaMenu]);
+
   return (
     <>
       <header
+        ref={headerRef}
         className={`sticky top-0 z-40 transition-all duration-500 ${
           scrolled
             ? 'bg-[#070709]/92 backdrop-blur-md border-b border-[#c5a059]/20 shadow-[0_12px_40px_rgba(0,0,0,0.8)] py-3'
             : 'bg-transparent border-b border-white/[0.07] py-5'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            {/* Left: Mobile Menu Toggle & Primary Category Navigation */}
-            <div className="flex items-center gap-6 lg:w-1/3">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
+          {/* TASK 1: Balanced 3-column layout preventing center logo collision at 1440px */}
+          <div className="flex lg:grid lg:grid-cols-[1fr_auto_1fr] items-center justify-between gap-2 lg:gap-4">
+            {/* Left Column: Mobile Menu Toggle & Primary Category Navigation */}
+            <div className="flex items-center justify-start gap-4 xl:gap-7 min-w-0">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden text-[#faf7f2] p-2 -ml-2 hover:text-[#c5a059] transition-colors"
+                className="lg:hidden text-[#faf7f2] p-2.5 min-w-[44px] min-h-[44px] -ml-2 hover:text-[#c5a059] transition-colors flex items-center justify-center"
                 aria-label="Toggle navigation menu"
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
 
-              <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
-                {NAV_LINKS.slice(0, 3).map((link) => (
+              <nav className="hidden lg:flex items-center gap-4 xl:gap-7">
+                {LEFT_NAV_LINKS.map((link) => (
                   <div
                     key={link.label}
                     onMouseEnter={() => link.hasMenu && setActiveMegaMenu(link.label)}
-                    className="relative group py-2"
+                    className="relative group py-2 shrink-0"
                   >
                     <Link
                       href={link.href}
-                      className="text-[11.5px] font-sans tracking-[0.2em] text-[#d6d0c4] hover:text-[#f4e8cb] uppercase transition-colors flex items-center gap-1"
+                      className="text-[11px] xl:text-[11.5px] font-sans tracking-[0.16em] xl:tracking-[0.2em] text-[#d6d0c4] hover:text-[#f4e8cb] uppercase transition-colors flex items-center gap-1 whitespace-nowrap"
                     >
                       <span>{link.label}</span>
                       {link.hasMenu && (
@@ -88,30 +147,30 @@ export default function Navbar() {
               </nav>
             </div>
 
-            {/* Center: Majestic Brand Logotype */}
-            <div className="text-center lg:w-1/3 flex flex-col items-center">
+            {/* Center Column: Visually Centered Brand Logotype with Strict Sizing */}
+            <div className="flex flex-col items-center justify-center text-center shrink-0 px-2 lg:px-6">
               <Link href="/" className="group inline-flex flex-col items-center">
-                <span className="font-display text-xl sm:text-2xl md:text-[1.75rem] tracking-[0.28em] text-[#faf7f2] uppercase group-hover:text-gold-gradient transition-all duration-500 font-light">
+                <span className="font-display text-lg sm:text-xl lg:text-[1.45rem] xl:text-[1.7rem] tracking-[0.22em] xl:tracking-[0.28em] text-[#faf7f2] uppercase group-hover:text-gold-gradient transition-all duration-500 font-light whitespace-nowrap">
                   Maison D’Orval
                 </span>
-                <span className="text-[8.5px] tracking-[0.38em] text-[#c5a059] uppercase font-sans mt-0.5 group-hover:text-[#f4e8cb] transition-colors">
+                <span className="text-[7.5px] xl:text-[8.5px] tracking-[0.3em] xl:tracking-[0.38em] text-[#c5a059] uppercase font-sans mt-0.5 group-hover:text-[#f4e8cb] transition-colors whitespace-nowrap">
                   Haute Joaillerie • Paris
                 </span>
               </Link>
             </div>
 
-            {/* Right: Remaining Nav Links & Interactive Action Icons */}
-            <div className="flex items-center justify-end gap-5 sm:gap-6 lg:w-1/3">
-              <nav className="hidden lg:flex items-center gap-6 xl:gap-8 mr-2">
-                {NAV_LINKS.slice(3).map((link) => (
+            {/* Right Column: Remaining Nav Links & Interactive Action Icons */}
+            <div className="flex items-center justify-end gap-2.5 sm:gap-3 xl:gap-5 min-w-0">
+              <nav className="hidden lg:flex items-center gap-4 xl:gap-7">
+                {RIGHT_NAV_LINKS.map((link) => (
                   <div
                     key={link.label}
                     onMouseEnter={() => link.hasMenu && setActiveMegaMenu(link.label)}
-                    className="relative group py-2"
+                    className="relative group py-2 shrink-0"
                   >
                     <Link
                       href={link.href}
-                      className="text-[11.5px] font-sans tracking-[0.2em] text-[#d6d0c4] hover:text-[#f4e8cb] uppercase transition-colors flex items-center gap-1"
+                      className="text-[11px] xl:text-[11.5px] font-sans tracking-[0.16em] xl:tracking-[0.2em] text-[#d6d0c4] hover:text-[#f4e8cb] uppercase transition-colors flex items-center gap-1 whitespace-nowrap"
                     >
                       <span>{link.label}</span>
                       {link.hasMenu && (
@@ -126,57 +185,59 @@ export default function Navbar() {
               {/* VIP Salon appointment link */}
               <button
                 onClick={() => openVIPModal('Private Salon Viewing')}
-                className="hidden xl:inline-flex items-center gap-1.5 text-[10px] tracking-[0.22em] text-[#c5a059] hover:text-[#f4e8cb] border border-[#c5a059]/30 hover:border-[#c5a059] px-3 py-1.5 rounded-none transition-all uppercase font-sans"
+                className="hidden 2xl:inline-flex items-center gap-1.5 text-[10px] tracking-[0.2em] text-[#c5a059] hover:text-[#f4e8cb] border border-[#c5a059]/30 hover:border-[#c5a059] px-2.5 py-1.5 rounded-none transition-all uppercase font-sans whitespace-nowrap shrink-0"
               >
                 <Sparkles className="w-2.5 h-2.5" />
                 <span>Private Salon</span>
               </button>
 
-              {/* Search button */}
-              <button
-                onClick={openSearch}
-                aria-label="Search creations"
-                className="text-[#d6d0c4] hover:text-[#c5a059] transition-colors p-1"
-              >
-                <Search className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
-              </button>
+              <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+                {/* Search button with min 44x44px touch target */}
+                <button
+                  onClick={openSearch}
+                  aria-label="Search creations"
+                  className="text-[#d6d0c4] hover:text-[#c5a059] transition-colors p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                >
+                  <Search className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+                </button>
 
-              {/* Wishlist button */}
-              <Link
-                href="#featured"
-                aria-label="Wishlist"
-                className="relative text-[#d6d0c4] hover:text-[#c5a059] transition-colors p-1"
-              >
-                <Heart className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
-                {wishlist.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#c5a059] text-[#070709] text-[9px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center font-sans">
-                    {wishlist.length}
-                  </span>
-                )}
-              </Link>
-
-              {/* Cart Drawer trigger */}
-              <button
-                onClick={openCart}
-                aria-label="View Shopping Bag"
-                className="relative text-[#d6d0c4] hover:text-[#c5a059] transition-colors p-1 group flex items-center gap-2"
-              >
-                <div className="relative">
-                  <ShoppingBag className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
-                  {cartCount > 0 && (
-                    <motion.span
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="absolute -top-1.5 -right-1.5 bg-[#c5a059] text-[#070709] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center font-sans shadow-md"
-                    >
-                      {cartCount}
-                    </motion.span>
+                {/* Wishlist button with min 44x44px touch target */}
+                <button
+                  onClick={openWishlist}
+                  aria-label="Wishlist"
+                  className="relative text-[#d6d0c4] hover:text-[#c5a059] transition-colors p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                >
+                  <Heart className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+                  {wishlist.length > 0 && (
+                    <span className="absolute top-1.5 right-1.5 bg-[#c5a059] text-[#070709] text-[9px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center font-sans">
+                      {wishlist.length}
+                    </span>
                   )}
-                </div>
-                <span className="hidden sm:inline text-[11px] font-sans tracking-[0.16em] uppercase text-[#a39f93] group-hover:text-[#faf7f2] transition-colors">
-                  Bag
-                </span>
-              </button>
+                </button>
+
+                {/* Cart Drawer trigger with min 44x44px touch target */}
+                <button
+                  onClick={openCart}
+                  aria-label="View Shopping Bag"
+                  className="relative text-[#d6d0c4] hover:text-[#c5a059] transition-colors p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center group gap-1.5"
+                >
+                  <div className="relative">
+                    <ShoppingBag className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+                    {cartCount > 0 && (
+                      <motion.span
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="absolute -top-1.5 -right-1.5 bg-[#c5a059] text-[#070709] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center font-sans shadow-md"
+                      >
+                        {cartCount}
+                      </motion.span>
+                    )}
+                  </div>
+                  <span className="hidden xl:inline text-[11px] font-sans tracking-[0.16em] uppercase text-[#a39f93] group-hover:text-[#faf7f2] transition-colors">
+                    Bag
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -214,7 +275,7 @@ export default function Navbar() {
               </div>
 
               <div className="mt-8 flex flex-col space-y-6">
-                {NAV_LINKS.map((link, idx) => (
+                {MOBILE_NAV_LINKS.map((link, idx) => (
                   <motion.div
                     key={link.label}
                     initial={{ opacity: 0, y: 15 }}
@@ -253,3 +314,4 @@ export default function Navbar() {
     </>
   );
 }
+

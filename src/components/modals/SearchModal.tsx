@@ -52,7 +52,7 @@ export default function SearchModal() {
             </span>
             <button
               onClick={closeSearch}
-              className="text-[#8e8a7f] hover:text-[#faf7f2] p-1.5 transition-colors"
+              className="text-[#8e8a7f] hover:text-[#faf7f2] p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors"
               aria-label="Close search"
             >
               <X className="w-5 h-5" />
@@ -146,3 +146,4 @@ export default function SearchModal() {
     </AnimatePresence>
   );
 }
+

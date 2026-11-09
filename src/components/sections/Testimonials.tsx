@@ -26,10 +26,9 @@ export default function Testimonials() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
-          eyebrow="Patrons of the Maison"
-          title="Curated Client"
-          italicWord="Chronicles"
-          subtitle="Generations of discerning collectors, connoisseurs, and royal families entrusted with our private commissions."
+          eyebrow="Private Commissions • Concept Showcase"
+          title="Sample Client Provenance"
+          subtitle="Conceptual reflections illustrating bespoke high-jewellery commissions crafted under Maison D’Orval atelier standards (Demo Archive)."
         />
 
         {/* Testimonial Stage */}
@@ -70,7 +69,7 @@ export default function Testimonials() {
           {/* Navigation Controls */}
           <div className="flex items-center justify-between mt-10 pt-6 border-t border-white/5">
             <div className="text-[11px] font-sans text-[#706c64] tracking-widest uppercase">
-              Provenance {currentIndex + 1} of {TESTIMONIALS.length}
+              Sample Archive {currentIndex + 1} of {TESTIMONIALS.length}
             </div>
 
             <div className="flex items-center gap-2">
@@ -95,3 +94,4 @@ export default function Testimonials() {
     </section>
   );
 }
+

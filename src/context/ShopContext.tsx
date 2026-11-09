@@ -1,7 +1,7 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
-import { Product, CartItem, MetalType } from '@/types/jewellery';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { Product, CartItem, MetalType, DemoAppointment, DemoOrder } from '@/types/jewellery';
 import { PRODUCTS } from '@/data/jewelleryData';
 
 interface ShopContextType {
@@ -31,24 +31,23 @@ interface ShopContextType {
   wishlist: string[];
   toggleWishlist: (productId: string) => void;
   isWishlisted: (productId: string) => boolean;
+  isWishlistOpen: boolean;
+  openWishlist: () => void;
+  closeWishlist: () => void;
+  moveToCart: (productId: string, selectedSize?: string, selectedMetal?: MetalType) => void;
+  isCheckoutOpen: boolean;
+  openCheckout: () => void;
+  closeCheckout: () => void;
+  appointments: DemoAppointment[];
+  saveAppointment: (appt: Omit<DemoAppointment, 'id' | 'createdAt'>) => string;
+  orders: DemoOrder[];
+  placeOrder: (order: Omit<DemoOrder, 'id' | 'createdAt'>) => string;
 }
 
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
 
 export function ShopProvider({ children }: { children: React.ReactNode }) {
-  const [cart, setCart] = useState<CartItem[]>(() => {
-    const initialItem = PRODUCTS[0];
-    return initialItem
-      ? [
-          {
-            product: initialItem,
-            quantity: 1,
-            selectedSize: '52 (EU) / 6 (US)',
-            selectedMetal: initialItem.metal,
-          },
-        ]
-      : [];
-  });
+  const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [currency, setCurrency] = useState<'USD' | 'EUR' | 'GBP'>('USD');
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
@@ -56,10 +55,91 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
   const [vipSubject, setVipSubject] = useState('Private Salon Appointment');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [wishlist, setWishlist] = useState<string[]>([]);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [appointments, setAppointments] = useState<DemoAppointment[]>([]);
+  const [orders, setOrders] = useState<DemoOrder[]>([]);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // Load state from localStorage on mount
+  useEffect(() => {
+    queueMicrotask(() => {
+      try {
+        const savedCart = localStorage.getItem('orval_cart');
+        const savedWishlist = localStorage.getItem('orval_wishlist');
+        const savedCurrency = localStorage.getItem('orval_currency');
+        const savedAppointments = localStorage.getItem('orval_demo_appointments');
+        const savedOrders = localStorage.getItem('orval_demo_orders');
+
+        if (savedCart) {
+          const parsedCart = JSON.parse(savedCart);
+          if (Array.isArray(parsedCart)) setCart(parsedCart);
+        }
+        if (savedWishlist) {
+          const parsedWishlist = JSON.parse(savedWishlist);
+          if (Array.isArray(parsedWishlist)) setWishlist(parsedWishlist);
+        }
+        if (savedCurrency && ['USD', 'EUR', 'GBP'].includes(savedCurrency)) {
+          setCurrency(savedCurrency as 'USD' | 'EUR' | 'GBP');
+        }
+        if (savedAppointments) {
+          const parsedAppts = JSON.parse(savedAppointments);
+          if (Array.isArray(parsedAppts)) setAppointments(parsedAppts);
+        }
+        if (savedOrders) {
+          const parsedOrders = JSON.parse(savedOrders);
+          if (Array.isArray(parsedOrders)) setOrders(parsedOrders);
+        }
+      } catch {
+        // Ignore storage access and parse errors
+      } finally {
+        setIsHydrated(true);
+      }
+    });
+  }, []);
+
+  // Sync state to localStorage after hydration
+  useEffect(() => {
+    if (!isHydrated) return;
+    try {
+      localStorage.setItem('orval_cart', JSON.stringify(cart));
+    } catch {}
+  }, [cart, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    try {
+      localStorage.setItem('orval_wishlist', JSON.stringify(wishlist));
+    } catch {}
+  }, [wishlist, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    try {
+      localStorage.setItem('orval_currency', currency);
+    } catch {}
+  }, [currency, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    try {
+      localStorage.setItem('orval_demo_appointments', JSON.stringify(appointments));
+    } catch {}
+  }, [appointments, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    try {
+      localStorage.setItem('orval_demo_orders', JSON.stringify(orders));
+    } catch {}
+  }, [orders, isHydrated]);
 
   const currencySymbol = currency === 'USD' ? '$' : currency === 'EUR' ? '€' : '£';
 
-  const openCart = () => setIsCartOpen(true);
+  const openCart = () => {
+    setIsWishlistOpen(false);
+    setIsCartOpen(true);
+  };
   const closeCart = () => setIsCartOpen(false);
 
   const addToCart = (
@@ -137,6 +217,54 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
 
   const isWishlisted = (productId: string) => wishlist.includes(productId);
 
+  const openWishlist = () => {
+    setIsCartOpen(false);
+    setIsWishlistOpen(true);
+  };
+  const closeWishlist = () => setIsWishlistOpen(false);
+
+  const moveToCart = (
+    productId: string,
+    selectedSize?: string,
+    selectedMetal?: MetalType
+  ) => {
+    const product = PRODUCTS.find((p) => p.id === productId);
+    if (product) {
+      setIsWishlistOpen(false);
+      addToCart(product, 1, selectedSize, selectedMetal);
+      setWishlist((prev) => prev.filter((id) => id !== productId));
+    }
+  };
+
+  const openCheckout = () => {
+    setIsCartOpen(false);
+    setIsCheckoutOpen(true);
+  };
+  const closeCheckout = () => setIsCheckoutOpen(false);
+
+  const saveAppointment = (appt: Omit<DemoAppointment, 'id' | 'createdAt'>): string => {
+    const id = `SALON-${Math.floor(1000 + Math.random() * 9000)}`;
+    const newAppointment: DemoAppointment = {
+      ...appt,
+      id,
+      createdAt: new Date().toISOString(),
+    };
+    setAppointments((prev) => [newAppointment, ...prev]);
+    return id;
+  };
+
+  const placeOrder = (order: Omit<DemoOrder, 'id' | 'createdAt'>): string => {
+    const id = `MDO-2026-${Math.floor(10000 + Math.random() * 90000)}`;
+    const newOrder: DemoOrder = {
+      ...order,
+      id,
+      createdAt: new Date().toISOString(),
+    };
+    setOrders((prev) => [newOrder, ...prev]);
+    clearCart();
+    return id;
+  };
+
   return (
     <ShopContext.Provider
       value={{
@@ -166,6 +294,17 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
         wishlist,
         toggleWishlist,
         isWishlisted,
+        isWishlistOpen,
+        openWishlist,
+        closeWishlist,
+        moveToCart,
+        isCheckoutOpen,
+        openCheckout,
+        closeCheckout,
+        appointments,
+        saveAppointment,
+        orders,
+        placeOrder,
       }}
     >
       {children}

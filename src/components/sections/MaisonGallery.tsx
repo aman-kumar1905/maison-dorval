@@ -87,7 +87,7 @@ export default function MaisonGallery() {
             <span className="text-[#faf7f2] font-medium tracking-wider">
               @MaisonDorval
             </span>
-            <span className="text-[#6d6961]">• 420K Patrons Worldwide</span>
+            <span className="text-[#6d6961]">• Digital Archive Showcase</span>
           </div>
 
           <a

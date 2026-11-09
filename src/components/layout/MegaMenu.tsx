@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { CATEGORIES } from '@/data/jewelleryData';
 import { ArrowUpRight } from 'lucide-react';
 
@@ -14,17 +14,30 @@ interface MegaMenuProps {
 }
 
 export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
-  if (!isOpen) return null;
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      onMouseLeave={onClose}
-      className="absolute top-full left-0 w-full bg-[#08080b]/98 backdrop-blur-xl border-b border-[#c5a059]/25 shadow-[0_30px_60px_rgba(0,0,0,0.85)] z-40 overflow-hidden"
-    >
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* TASK 2: Backdrop for outside click dismissal */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={onClose}
+            className="fixed inset-0 top-[70px] bg-black/60 backdrop-blur-sm z-30 pointer-events-auto"
+            data-backdrop="megamenu"
+            aria-hidden="true"
+          />
+
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            onMouseLeave={onClose}
+            className="absolute top-full left-0 w-full bg-[#08080b]/98 backdrop-blur-xl border-b border-[#c5a059]/25 shadow-[0_30px_60px_rgba(0,0,0,0.85)] z-40 overflow-hidden"
+          >
       <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="grid grid-cols-12 gap-8">
           {/* Left: Category Columns */}
@@ -36,7 +49,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
               <ul className="space-y-3 font-sans text-xs tracking-[0.08em] text-[#bfb8ab]">
                 <li>
                   <Link
-                    href="#categories"
+                    href="/#categories"
                     onClick={onClose}
                     className="hover:text-[#f4e8cb] transition-colors flex items-center justify-between group"
                   >
@@ -46,7 +59,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
                 </li>
                 <li>
                   <Link
-                    href="#categories"
+                    href="/#categories"
                     onClick={onClose}
                     className="hover:text-[#f4e8cb] transition-colors flex items-center justify-between group"
                   >
@@ -56,7 +69,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
                 </li>
                 <li>
                   <Link
-                    href="#categories"
+                    href="/#categories"
                     onClick={onClose}
                     className="hover:text-[#f4e8cb] transition-colors flex items-center justify-between group"
                   >
@@ -66,7 +79,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
                 </li>
                 <li>
                   <Link
-                    href="#categories"
+                    href="/#categories"
                     onClick={onClose}
                     className="hover:text-[#f4e8cb] transition-colors flex items-center justify-between group"
                   >
@@ -84,7 +97,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
               <ul className="space-y-3 font-sans text-xs tracking-[0.08em] text-[#bfb8ab]">
                 <li>
                   <Link
-                    href="#bridal"
+                    href="/#bridal"
                     onClick={onClose}
                     className="hover:text-[#f4e8cb] transition-colors flex items-center justify-between group"
                   >
@@ -94,7 +107,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
                 </li>
                 <li>
                   <Link
-                    href="#bridal"
+                    href="/#bridal"
                     onClick={onClose}
                     className="hover:text-[#f4e8cb] transition-colors flex items-center justify-between group"
                   >
@@ -104,7 +117,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
                 </li>
                 <li>
                   <Link
-                    href="#bridal"
+                    href="/#bridal"
                     onClick={onClose}
                     className="hover:text-[#f4e8cb] transition-colors flex items-center justify-between group"
                   >
@@ -114,7 +127,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
                 </li>
                 <li>
                   <Link
-                    href="#bridal"
+                    href="/#bridal"
                     onClick={onClose}
                     className="hover:text-[#f4e8cb] transition-colors flex items-center justify-between group"
                   >
@@ -132,7 +145,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
               <ul className="space-y-3 font-sans text-xs tracking-[0.08em] text-[#bfb8ab]">
                 <li>
                   <Link
-                    href="#craftsmanship"
+                    href="/#craftsmanship"
                     onClick={onClose}
                     className="hover:text-[#f4e8cb] transition-colors flex items-center justify-between group"
                   >
@@ -142,7 +155,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
                 </li>
                 <li>
                   <Link
-                    href="#craftsmanship"
+                    href="/#craftsmanship"
                     onClick={onClose}
                     className="hover:text-[#f4e8cb] transition-colors flex items-center justify-between group"
                   >
@@ -152,17 +165,17 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
                 </li>
                 <li>
                   <Link
-                    href="#craftsmanship"
+                    href="/#craftsmanship"
                     onClick={onClose}
                     className="hover:text-[#f4e8cb] transition-colors flex items-center justify-between group"
                   >
-                    <span>RJC Ethical Certification</span>
+                    <span>Ethical Provenance Protocol</span>
                     <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-[#c5a059]" />
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="#craftsmanship"
+                    href="/#craftsmanship"
                     onClick={onClose}
                     className="hover:text-[#f4e8cb] transition-colors flex items-center justify-between group"
                   >
@@ -200,7 +213,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
             <div className="pt-4 flex items-center justify-between text-[11px] tracking-[0.16em] uppercase font-sans">
               <span className="text-[#8e8a7f]">Atelier Paris • 1894</span>
               <Link
-                href="#collections"
+                href="/#collections"
                 onClick={onClose}
                 className="text-[#c5a059] hover:text-[#f4e8cb] transition-colors flex items-center gap-1"
               >
@@ -212,5 +225,9 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
         </div>
       </div>
     </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }
+

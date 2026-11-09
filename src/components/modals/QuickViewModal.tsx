@@ -2,13 +2,16 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useShop } from '@/context/ShopContext';
-import { X, ShieldCheck, Heart, Sparkles, Check } from 'lucide-react';
+import { X, ShieldCheck, Heart, Sparkles, Check, ArrowRight } from 'lucide-react';
 import LuxuryButton from '../common/LuxuryButton';
 import { MetalType } from '@/types/jewellery';
 
-const SIZES = ['48 (EU) / 4.5 (US)', '50 (EU) / 5.25 (US)', '52 (EU) / 6 (US)', '54 (EU) / 6.75 (US)', '56 (EU) / 7.5 (US)'];
+const RING_SIZES = ['48 (EU) / 4.5 (US)', '50 (EU) / 5.25 (US)', '52 (EU) / 6 (US)', '54 (EU) / 6.75 (US)', '56 (EU) / 7.5 (US)'];
+const NECKLACE_LENGTHS = ['38 cm / 15" Choker', '42 cm / 16.5" Princess', '45 cm / 18" Matinee'];
+const CUFF_SIZES = ['Small (15 - 16 cm)', 'Medium (16.5 - 17.5 cm)', 'Large (18 - 19 cm)'];
 const METALS: MetalType[] = ['Platinum 950', '18k Yellow Gold', '18k Rose Gold'];
 
 export default function QuickViewModal() {
@@ -29,8 +32,22 @@ export default function QuickViewModal() {
 
   if (!quickViewProduct) return null;
 
+  const isRing = quickViewProduct ? quickViewProduct.name.includes('Bague') || quickViewProduct.name.includes('Alliance') : false;
+  const isNecklace = quickViewProduct ? quickViewProduct.name.includes('Collier') || quickViewProduct.name.includes('Pendentif') || quickViewProduct.name.includes('Parure') : false;
+  const isCuff = quickViewProduct ? quickViewProduct.name.includes('Manchette') || quickViewProduct.name.includes('Bracelet') : false;
+
+  const sizingOptions = isRing ? RING_SIZES : isNecklace ? NECKLACE_LENGTHS : isCuff ? CUFF_SIZES : null;
+  const sizingLabel = isRing
+    ? 'Select Finger Size (Complimentary Resizing Available)'
+    : isNecklace
+    ? 'Select Chain / Choker Length'
+    : isCuff
+    ? 'Select Wrist Circumference'
+    : null;
+
   const handleAdd = () => {
-    addToCart(quickViewProduct, 1, selectedSize, selectedMetal);
+    const finalSize = sizingOptions ? selectedSize : 'Standard Atelier Fitting';
+    addToCart(quickViewProduct, 1, finalSize, selectedMetal);
     setAdded(true);
     setTimeout(() => {
       setAdded(false);
@@ -63,7 +80,7 @@ export default function QuickViewModal() {
           {/* Close button */}
           <button
             onClick={closeQuickView}
-            className="absolute top-4 right-4 z-20 text-[#a39f93] hover:text-[#faf7f2] p-2 bg-black/40 rounded-full backdrop-blur-sm transition-colors"
+            className="absolute top-4 right-4 z-20 text-[#a39f93] hover:text-[#faf7f2] p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center bg-black/40 rounded-full backdrop-blur-sm transition-colors"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
@@ -201,23 +218,30 @@ export default function QuickViewModal() {
                   </div>
                 </div>
 
-                {/* Size selector */}
-                <div className="mt-4 space-y-2">
-                  <label className="text-[10px] tracking-[0.2em] uppercase font-sans text-[#a39f93] block">
-                    Select Finger Size (Complimentary Resizing Available)
-                  </label>
-                  <select
-                    value={selectedSize}
-                    onChange={(e) => setSelectedSize(e.target.value)}
-                    className="w-full bg-[#121218] border border-white/10 text-xs text-[#faf7f2] px-3 py-2.5 rounded-none focus:outline-none focus:border-[#c5a059] font-sans"
-                  >
-                    {SIZES.map((sz) => (
-                      <option key={sz} value={sz} className="bg-[#121218]">
-                        {sz}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                {/* Category-Aware Size selector */}
+                {sizingOptions && sizingLabel ? (
+                  <div className="mt-4 space-y-2">
+                    <label className="text-[10px] tracking-[0.2em] uppercase font-sans text-[#a39f93] block">
+                      {sizingLabel}
+                    </label>
+                    <select
+                      value={selectedSize}
+                      onChange={(e) => setSelectedSize(e.target.value)}
+                      className="w-full bg-[#121218] border border-white/10 text-xs text-[#faf7f2] px-3 py-2.5 rounded-none focus:outline-none focus:border-[#c5a059] font-sans"
+                    >
+                      {sizingOptions.map((sz) => (
+                        <option key={sz} value={sz} className="bg-[#121218]">
+                          {sz}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  <div className="mt-4 p-2.5 bg-white/[0.02] border border-white/5 text-[10.5px] font-sans text-[#a39f93] flex items-center gap-2">
+                    <Sparkles className="w-3.5 h-3.5 text-[#c5a059] shrink-0" />
+                    <span>Universal Atelier tension posts • Precision engineered for balanced comfort</span>
+                  </div>
+                )}
               </div>
 
               {/* Action Buttons */}
@@ -232,7 +256,7 @@ export default function QuickViewModal() {
                   {added ? 'Added to Bag' : 'Add to High Jewellery Bag'}
                 </LuxuryButton>
 
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <LuxuryButton
                     variant="secondary"
                     size="sm"
@@ -240,10 +264,19 @@ export default function QuickViewModal() {
                       closeQuickView();
                       openVIPModal(`Inquiry on ${quickViewProduct.name}`);
                     }}
-                    className="w-full"
+                    className="flex-1"
                   >
-                    Inquire with Place Vendôme Salon
+                    Inquire with Salon
                   </LuxuryButton>
+
+                  <Link
+                    href={`/product/${quickViewProduct.id}`}
+                    onClick={closeQuickView}
+                    className="flex-1 py-2 px-3 border border-white/15 hover:border-[#c5a059] text-[10px] tracking-[0.16em] uppercase font-sans text-[#faf7f2] hover:text-[#c5a059] flex items-center justify-center gap-1.5 transition-colors"
+                  >
+                    <span>Full Portfolio</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
                 </div>
 
                 <div className="flex items-center justify-center gap-2 text-[10px] tracking-[0.16em] uppercase text-[#7a766c] pt-1">

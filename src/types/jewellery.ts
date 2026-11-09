@@ -69,3 +69,35 @@ export interface InstagramPost {
   likes: string;
   productTag?: string;
 }
+
+export interface DemoAppointment {
+  id: string;
+  subject: string;
+  name: string;
+  email: string;
+  phone: string;
+  boutique: string;
+  date: string;
+  time: string;
+  notes?: string;
+  createdAt: string;
+}
+
+export interface DemoOrder {
+  id: string;
+  items: CartItem[];
+  total: number;
+  currency: string;
+  clientName: string;
+  email: string;
+  phone: string;
+  deliveryMethod: 'courier' | 'salon';
+  address?: string;
+  city?: string;
+  postalCode?: string;
+  country?: string;
+  salon?: string;
+  giftNote?: string;
+  createdAt: string;
+}
+

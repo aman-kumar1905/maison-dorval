@@ -13,6 +13,7 @@ interface LuxuryButtonProps {
   className?: string;
   icon?: React.ReactNode;
   disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export default function LuxuryButton({
@@ -24,6 +25,7 @@ export default function LuxuryButton({
   className = '',
   icon,
   disabled = false,
+  type = 'button',
 }: LuxuryButtonProps) {
   const sizeClasses = {
     sm: 'px-5 py-2.5 text-[11px] tracking-[0.2em]',
@@ -48,7 +50,7 @@ export default function LuxuryButton({
 
   if (href) {
     return (
-      <Link href={href} className={commonClass}>
+      <Link href={href} onClick={onClick} className={commonClass}>
         <span>{children}</span>
         {icon && <span className="ml-2.5 transition-transform duration-300 group-hover:translate-x-1">{icon}</span>}
       </Link>
@@ -57,6 +59,7 @@ export default function LuxuryButton({
 
   return (
     <motion.button
+      type={type}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
       disabled={disabled}
@@ -67,3 +70,4 @@ export default function LuxuryButton({
     </motion.button>
   );
 }
+

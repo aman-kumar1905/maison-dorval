@@ -70,11 +70,11 @@ export default function BridalEditorial() {
             className="lg:col-span-6 relative aspect-[3/4] sm:aspect-[4/5] bg-[#0c0c11] border border-[#c5a059]/30 overflow-hidden"
           >
             <Image
-              src="https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=1400&q=85"
-              alt="Maison D'Orval Haute Bridal Suite"
+              src="/images/editorial/reine-blanche-tiara.jpg"
+              alt="Maison D'Orval Reine Blanche Tiara & Parure"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover brightness-[0.75] contrast-[1.08] transition-transform duration-1000 hover:scale-105"
+              className="object-cover brightness-[0.85] contrast-[1.1] transition-transform duration-1000 hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#060608] via-transparent to-black/30" />
 
@@ -178,7 +178,7 @@ export default function BridalEditorial() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-sans text-[#a8a397]">
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#c5a059]" />
-                <span>GIA & Gübelin Dual Gem Reports</span>
+                <span>Comprehensive Gemological Dossier</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#c5a059]" />
@@ -221,3 +221,4 @@ export default function BridalEditorial() {
     </section>
   );
 }
+

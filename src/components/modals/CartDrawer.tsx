@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useShop } from '@/context/ShopContext';
-import { X, Trash2, Plus, Minus, ShieldCheck, Gift, ArrowRight } from 'lucide-react';
+import { X, Trash2, Plus, Minus, Gift, ArrowRight } from 'lucide-react';
 import LuxuryButton from '../common/LuxuryButton';
 
 export default function CartDrawer() {
@@ -17,17 +17,13 @@ export default function CartDrawer() {
     cartTotal,
     currencySymbol,
     openVIPModal,
+    openCheckout,
   } = useShop();
 
-  const [checkoutComplete, setCheckoutComplete] = useState(false);
   const [giftWrap, setGiftWrap] = useState(true);
 
   const handleCheckout = () => {
-    setCheckoutComplete(true);
-    setTimeout(() => {
-      setCheckoutComplete(false);
-      closeCart();
-    }, 3500);
+    openCheckout();
   };
 
   return (
@@ -41,7 +37,7 @@ export default function CartDrawer() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={closeCart}
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/85 backdrop-blur-md"
           />
 
           {/* Drawer Panel */}
@@ -64,7 +60,7 @@ export default function CartDrawer() {
               </div>
               <button
                 onClick={closeCart}
-                className="text-[#9e9a90] hover:text-[#faf7f2] p-1.5 transition-colors"
+                className="text-[#9e9a90] hover:text-[#faf7f2] p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors"
                 aria-label="Close cart"
               >
                 <X className="w-5 h-5" />
@@ -73,19 +69,7 @@ export default function CartDrawer() {
 
             {/* Cart Items List */}
             <div className="flex-1 overflow-y-auto px-6 py-6 divide-y divide-white/5 space-y-6">
-              {checkoutComplete ? (
-                <div className="py-20 text-center space-y-4">
-                  <div className="w-14 h-14 rounded-full border border-[#c5a059] mx-auto flex items-center justify-center text-[#c5a059] bg-[#c5a059]/10">
-                    <ShieldCheck className="w-8 h-8" />
-                  </div>
-                  <h4 className="font-serif text-2xl text-[#faf7f2]">
-                    Concierge Order Transmitted
-                  </h4>
-                  <p className="text-xs text-[#a39f93] max-w-xs mx-auto leading-relaxed">
-                    Your personal Place Vendôme liaison will contact you within two hours to confirm insured delivery details and custom sizing.
-                  </p>
-                </div>
-              ) : cart.length === 0 ? (
+              {cart.length === 0 ? (
                 <div className="py-20 text-center space-y-4">
                   <p className="font-serif text-xl text-[#d4cfc5]">
                     Your jewel case is presently empty
@@ -173,7 +157,7 @@ export default function CartDrawer() {
             </div>
 
             {/* Footer / Summary */}
-            {cart.length > 0 && !checkoutComplete && (
+            {cart.length > 0 && (
               <div className="p-6 bg-[#07070a] border-t border-white/10 space-y-4">
                 {/* Gift packaging option */}
                 <div
@@ -192,8 +176,13 @@ export default function CartDrawer() {
                   <input
                     type="checkbox"
                     checked={giftWrap}
-                    onChange={() => setGiftWrap(!giftWrap)}
+                    onChange={(e) => {
+                      e.stopPropagation();
+                      setGiftWrap(e.target.checked);
+                    }}
+                    onClick={(e) => e.stopPropagation()}
                     className="accent-[#c5a059] w-4 h-4 cursor-pointer"
+                    aria-label="Signature Gift Presentation"
                   />
                 </div>
 
@@ -251,3 +240,4 @@ export default function CartDrawer() {
     </AnimatePresence>
   );
 }
+

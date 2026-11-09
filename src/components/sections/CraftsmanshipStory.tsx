@@ -19,8 +19,8 @@ const CRAFT_PILLARS = [
   },
   {
     icon: Shield,
-    title: 'Fairmined 18K Gold',
-    desc: 'We strictly utilize 100% certified fairmined and recycled precious metals, safeguarding miners, ecosystems, and cultural integrity.',
+    title: 'Responsible Gold Protocol',
+    desc: 'Committed to strictly traceable precious metals, safeguarding artisanal mining communities, ecosystems, and heritage practices.',
   },
   {
     icon: Award,
@@ -75,11 +75,11 @@ export default function CraftsmanshipStory() {
             className="lg:col-span-6 relative aspect-[4/3] sm:aspect-[16/11] bg-[#121218] border border-[#c5a059]/25 overflow-hidden"
           >
             <Image
-              src="https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?auto=format&fit=crop&w=1200&q=85"
-              alt="Master Jeweller at work with loupe"
+              src="/images/editorial/gem-setting-atelier.jpg"
+              alt="Master Jeweller precision gem-setting at workbench"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover brightness-[0.72] contrast-[1.08] hover:scale-105 transition-transform duration-1000"
+              className="object-cover brightness-[0.75] contrast-[1.08] hover:scale-105 transition-transform duration-1000"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
             <div className="absolute bottom-6 left-6 right-6">
