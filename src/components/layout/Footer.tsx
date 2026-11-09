@@ -39,7 +39,7 @@ export default function Footer() {
             Subscribers receive confidential early previews of our annual Haute Joaillerie collections and invitations to private Place Vendôme viewings.
           </p>
 
-          <form onSubmit={handleSubscribe} className="max-w-md mx-auto mt-6 flex gap-2">
+          <form onSubmit={handleSubscribe} className="max-w-md mx-auto mt-6 flex flex-col sm:flex-row gap-2.5 sm:gap-2">
             <input
               type="email"
               required
@@ -50,7 +50,7 @@ export default function Footer() {
             />
             <button
               type="submit"
-              className="bg-[#c5a059] text-[#070709] px-6 py-3 text-xs tracking-[0.2em] uppercase font-medium hover:bg-[#e5c378] transition-colors flex items-center justify-center gap-2"
+              className="bg-[#c5a059] text-[#070709] px-6 py-3 min-h-[44px] text-xs tracking-[0.2em] uppercase font-medium hover:bg-[#e5c378] transition-colors flex items-center justify-center gap-2 shrink-0"
             >
               {subscribed ? (
                 <>
@@ -247,22 +247,22 @@ export default function Footer() {
         </div>
 
         {/* Bottom Legal, Hallmarks and Copyright */}
-        <div className="mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#706c64] space-y-4 sm:space-y-0">
-          <div>
+        <div className="mt-12 sm:mt-16 pt-8 border-t border-white/5 flex flex-col lg:flex-row items-center justify-between text-[11px] text-[#706c64] gap-4 sm:gap-6 text-center lg:text-left pb-4 sm:pb-0">
+          <div className="max-w-xl leading-relaxed">
             © 1894–2026 Maison D’Orval Haute Joaillerie S.A. All rights reserved. (Demonstration Concept Platform)
           </div>
 
-          <div className="flex gap-6 tracking-wider uppercase text-[10px]">
-            <Link href="#" className="hover:text-[#c5a059] transition-colors">
+          <div className="flex flex-wrap justify-center lg:justify-end gap-x-5 sm:gap-x-6 gap-y-2 tracking-wider uppercase text-[10px]">
+            <Link href="#" className="hover:text-[#c5a059] transition-colors py-1">
               Privacy Policy
             </Link>
-            <Link href="#" className="hover:text-[#c5a059] transition-colors">
+            <Link href="#" className="hover:text-[#c5a059] transition-colors py-1">
               Legal Mentions
             </Link>
-            <Link href="#" className="hover:text-[#c5a059] transition-colors">
+            <Link href="#" className="hover:text-[#c5a059] transition-colors py-1">
               Code of Ethics
             </Link>
-            <Link href="#" className="hover:text-[#c5a059] transition-colors">
+            <Link href="#" className="hover:text-[#c5a059] transition-colors py-1">
               Traceability Protocol
             </Link>
           </div>

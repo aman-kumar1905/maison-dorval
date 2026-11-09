@@ -43,7 +43,7 @@ export default function SearchModal() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="relative bg-[#09090d] border border-[#c5a059]/30 shadow-[0_25px_80px_rgba(0,0,0,0.95)] max-w-3xl w-full z-10 p-6 sm:p-8"
+          className="relative bg-[#09090d] border border-[#c5a059]/30 shadow-[0_25px_80px_rgba(0,0,0,0.95)] max-w-3xl w-full z-10 p-5 sm:p-8 max-h-[90vh] overflow-y-auto"
         >
           <div className="flex items-center justify-between pb-4 border-b border-white/10">
             <span className="text-[10px] tracking-[0.24em] uppercase font-sans text-[#c5a059] flex items-center gap-1.5">

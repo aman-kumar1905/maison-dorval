@@ -75,7 +75,7 @@ export default function QuickViewModal() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="relative bg-[#09090d] border border-[#c5a059]/30 shadow-[0_25px_70px_rgba(0,0,0,0.95)] max-w-4xl w-full z-10 overflow-hidden my-auto"
+          className="relative bg-[#09090d] border border-[#c5a059]/30 shadow-[0_25px_70px_rgba(0,0,0,0.95)] max-w-4xl w-full z-10 overflow-y-auto my-auto max-h-[92vh]"
         >
           {/* Close button */}
           <button
@@ -145,7 +145,7 @@ export default function QuickViewModal() {
                   </span>
                   <button
                     onClick={() => toggleWishlist(quickViewProduct.id)}
-                    className="text-[#8e8a7f] hover:text-[#c5a059] transition-colors p-1"
+                    className="text-[#8e8a7f] hover:text-[#c5a059] transition-colors p-2 min-w-[44px] min-h-[44px] flex items-center justify-center -mr-2"
                     aria-label="Save to wishlist"
                   >
                     <Heart

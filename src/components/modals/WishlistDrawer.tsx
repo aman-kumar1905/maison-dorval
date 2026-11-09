@@ -181,7 +181,7 @@ export default function WishlistDrawer() {
                     onClick={() => {
                       wishlistedProducts.forEach((p) => moveToCart(p.id));
                     }}
-                    className="w-full py-2.5 bg-gradient-to-r from-[#c5a059] via-[#e5c378] to-[#c5a059] text-[#070709] text-[11px] tracking-[0.2em] uppercase font-medium flex items-center justify-center gap-2 hover:brightness-105 transition-all shadow-md"
+                    className="w-full py-3 min-h-[44px] bg-gradient-to-r from-[#c5a059] via-[#e5c378] to-[#c5a059] text-[#070709] text-[11px] tracking-[0.2em] uppercase font-medium flex items-center justify-center gap-2 hover:brightness-105 transition-all shadow-md"
                   >
                     <ShoppingBag className="w-3.5 h-3.5" />
                     <span>Move All to Bag</span>

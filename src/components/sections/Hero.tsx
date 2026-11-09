@@ -80,7 +80,7 @@ export default function Hero() {
           className="flex items-center gap-3 justify-center mb-6"
         >
           <span className="w-8 h-[1px] bg-[#c5a059]/60" />
-          <span className="text-[11px] sm:text-xs tracking-[0.34em] font-sans text-[#c5a059] uppercase font-medium">
+          <span className="text-[9.5px] min-[360px]:text-[11px] sm:text-xs tracking-[0.22em] min-[360px]:tracking-[0.34em] font-sans text-[#c5a059] uppercase font-medium">
             Collection Solstice 2026 • Haute Joaillerie
           </span>
           <span className="w-8 h-[1px] bg-[#c5a059]/60" />
@@ -89,7 +89,7 @@ export default function Hero() {
         {/* Main Headline */}
         <h1
           ref={headlineRef}
-          className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] text-[#faf7f2] font-light leading-[1.08] tracking-tight max-w-4xl"
+          className="font-serif text-[2rem] min-[360px]:text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] text-[#faf7f2] font-light leading-[1.12] sm:leading-[1.08] tracking-tight max-w-4xl"
         >
           The Architecture of <br className="hidden sm:inline" />
           <span className="italic font-serif font-normal text-gold-gradient">

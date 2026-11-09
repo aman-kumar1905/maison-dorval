@@ -68,7 +68,7 @@ export default function VIPAppointmentModal() {
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          className="relative bg-[#09090d] border border-[#c5a059]/30 shadow-[0_30px_90px_rgba(0,0,0,0.95)] max-w-xl w-full z-10 p-8 sm:p-10 my-auto"
+          className="relative bg-[#09090d] border border-[#c5a059]/30 shadow-[0_30px_90px_rgba(0,0,0,0.95)] max-w-xl w-full z-10 p-5 sm:p-8 md:p-10 my-auto max-h-[92vh] overflow-y-auto"
         >
           <button
             onClick={handleClose}

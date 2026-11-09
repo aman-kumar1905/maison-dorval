@@ -112,14 +112,14 @@ export default function Navbar() {
             : 'bg-transparent border-b border-white/[0.07] py-5'
         }`}
       >
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-          {/* TASK 1: Balanced 3-column layout preventing center logo collision at 1440px */}
-          <div className="flex lg:grid lg:grid-cols-[1fr_auto_1fr] items-center justify-between gap-2 lg:gap-4">
+        <div className="max-w-[1440px] mx-auto px-2.5 min-[360px]:px-4 sm:px-6 lg:px-8 xl:px-10">
+          {/* Responsive 3-column layout: mobile grid [auto_1fr_auto] & desktop grid [1fr_auto_1fr] */}
+          <div className="grid grid-cols-[auto_1fr_auto] lg:grid-cols-[1fr_auto_1fr] items-center gap-1 sm:gap-2 lg:gap-4 w-full">
             {/* Left Column: Mobile Menu Toggle & Primary Category Navigation */}
             <div className="flex items-center justify-start gap-4 xl:gap-7 min-w-0">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden text-[#faf7f2] p-2.5 min-w-[44px] min-h-[44px] -ml-2 hover:text-[#c5a059] transition-colors flex items-center justify-center"
+                className="lg:hidden text-[#faf7f2] w-11 h-11 min-w-[44px] min-h-[44px] -ml-1 sm:-ml-2 hover:text-[#c5a059] transition-colors flex items-center justify-center shrink-0"
                 aria-label="Toggle navigation menu"
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -147,20 +147,20 @@ export default function Navbar() {
               </nav>
             </div>
 
-            {/* Center Column: Visually Centered Brand Logotype with Strict Sizing */}
-            <div className="flex flex-col items-center justify-center text-center shrink-0 px-2 lg:px-6">
-              <Link href="/" className="group inline-flex flex-col items-center">
-                <span className="font-display text-lg sm:text-xl lg:text-[1.45rem] xl:text-[1.7rem] tracking-[0.22em] xl:tracking-[0.28em] text-[#faf7f2] uppercase group-hover:text-gold-gradient transition-all duration-500 font-light whitespace-nowrap">
+            {/* Center Column: Fluidly Responsive & Centered Brand Logotype */}
+            <div className="flex flex-col items-center justify-center text-center min-w-0 px-1 sm:px-2 lg:px-6">
+              <Link href="/" className="group inline-flex flex-col items-center justify-center max-w-full">
+                <span className="font-display text-[12.5px] min-[360px]:text-[14px] min-[390px]:text-[15.5px] sm:text-lg lg:text-[1.45rem] xl:text-[1.7rem] tracking-[0.11em] min-[360px]:tracking-[0.15em] min-[390px]:tracking-[0.19em] sm:tracking-[0.22em] xl:tracking-[0.28em] text-[#faf7f2] uppercase group-hover:text-gold-gradient transition-all duration-300 font-light truncate max-w-full">
                   Maison D’Orval
                 </span>
-                <span className="text-[7.5px] xl:text-[8.5px] tracking-[0.3em] xl:tracking-[0.38em] text-[#c5a059] uppercase font-sans mt-0.5 group-hover:text-[#f4e8cb] transition-colors whitespace-nowrap">
+                <span className="text-[6.5px] min-[360px]:text-[7px] sm:text-[7.5px] xl:text-[8.5px] tracking-[0.16em] min-[360px]:tracking-[0.22em] sm:tracking-[0.3em] xl:tracking-[0.38em] text-[#c5a059] uppercase font-sans mt-0.5 group-hover:text-[#f4e8cb] transition-colors truncate max-w-full">
                   Haute Joaillerie • Paris
                 </span>
               </Link>
             </div>
 
             {/* Right Column: Remaining Nav Links & Interactive Action Icons */}
-            <div className="flex items-center justify-end gap-2.5 sm:gap-3 xl:gap-5 min-w-0">
+            <div className="flex items-center justify-end gap-1.5 sm:gap-3 xl:gap-5 min-w-0 justify-self-end">
               <nav className="hidden lg:flex items-center gap-4 xl:gap-7">
                 {RIGHT_NAV_LINKS.map((link) => (
                   <div
@@ -191,12 +191,12 @@ export default function Navbar() {
                 <span>Private Salon</span>
               </button>
 
-              <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+              <div className="flex items-center gap-0.5 min-[360px]:gap-1 sm:gap-2 shrink-0">
                 {/* Search button with min 44x44px touch target */}
                 <button
                   onClick={openSearch}
                   aria-label="Search creations"
-                  className="text-[#d6d0c4] hover:text-[#c5a059] transition-colors p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  className="text-[#d6d0c4] hover:text-[#c5a059] transition-colors w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0"
                 >
                   <Search className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
                 </button>
@@ -205,7 +205,7 @@ export default function Navbar() {
                 <button
                   onClick={openWishlist}
                   aria-label="Wishlist"
-                  className="relative text-[#d6d0c4] hover:text-[#c5a059] transition-colors p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  className="relative text-[#d6d0c4] hover:text-[#c5a059] transition-colors w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0"
                 >
                   <Heart className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
                   {wishlist.length > 0 && (
@@ -219,7 +219,7 @@ export default function Navbar() {
                 <button
                   onClick={openCart}
                   aria-label="View Shopping Bag"
-                  className="relative text-[#d6d0c4] hover:text-[#c5a059] transition-colors p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center group gap-1.5"
+                  className="relative text-[#d6d0c4] hover:text-[#c5a059] transition-colors w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0 group gap-1.5"
                 >
                   <div className="relative">
                     <ShoppingBag className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
@@ -267,7 +267,7 @@ export default function Navbar() {
                 </span>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-[#faf7f2] hover:text-[#c5a059] transition-colors p-2"
+                  className="text-[#faf7f2] hover:text-[#c5a059] transition-colors w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center p-2.5"
                   aria-label="Close menu"
                 >
                   <X className="w-6 h-6" />

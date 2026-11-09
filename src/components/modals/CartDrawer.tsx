@@ -227,7 +227,7 @@ export default function CartDrawer() {
                       closeCart();
                       openVIPModal('Custom Ring Sizing & Atelier Consultation');
                     }}
-                    className="w-full text-center text-[10px] tracking-[0.2em] uppercase font-sans text-[#c5a059] hover:text-[#f4e8cb] py-1 transition-colors"
+                    className="w-full text-center text-[10px] tracking-[0.2em] uppercase font-sans text-[#c5a059] hover:text-[#f4e8cb] min-h-[44px] flex items-center justify-center py-2 transition-colors"
                   >
                     Request Custom Sizing Consultation
                   </button>
